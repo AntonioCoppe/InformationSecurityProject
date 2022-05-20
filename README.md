@@ -8,7 +8,7 @@ The application provided is a web application that allows:
 - Login management;
 - Reading, sending and receiving e-mails;
 
-As a web server was used *Tomcat 10.0.16*, as database *MySQL* and appication to manage the database *DBeaver* and *Docker*.The application is provided at: https://github.com/francxx96/ExamProject and is totally "insecure".
+As a web server *Tomcat 10.0.16* was used, as a database *MySQL* and the applications to manage the database *DBeaver* and *Docker*. The application is provided at: https://github.com/francxx96/ExamProject and is totally "insecure".
 
 ## Discovered Vulnerabilities
 
