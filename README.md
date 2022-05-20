@@ -38,8 +38,8 @@ With the use of a tool called ***Wireshark***(A free and open-source packet anal
 - Find the *POST* and *GET* requests;
 - Open and Read the content under HTML Form URL Encoded;
 
-![This is an image](https://github.com/AntonioCoppe/InformationSecurityProject/blob/main/Wireshark packet sniffing 127.0.0.1.png)
-
+![This is an image](https://github.com/AntonioCoppe/InformationSecurityProject/blob/main/WiresharkPacketSniffing.png)
+![This is an image](https://github.com/AntonioCoppe/InformationSecurityProject/blob/main/WiresharkMailExploited.png)
 
 ## Implementation of a "Secure" application
 
