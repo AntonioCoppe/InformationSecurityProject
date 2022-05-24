@@ -1,0 +1,9 @@
+
+FIXED
+
+- Login and register form can insert only valid email addresses.
+
+
+TO BE FIXED
+
+- 

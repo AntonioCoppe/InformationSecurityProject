@@ -55,8 +55,23 @@ public class LoginServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		
+		
+		/*
+		 * Validate User input before accepting it and should solve SQL Injection as well AS XSS Reflected, for stored 
+		 * XSS the input needs to be validated from the SendMailServlet class.
+		 */
+		
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
+		
+		
+		/*
+		 * DO NOT USE conn.createStatement()
+		 * 
+		 * Better to prepare a query before with something like: 
+		 * 				prepareStatment stmt = connection.prepareStatment(query); 
+		 * 				String query = "SELECT * FROM [user] WHERE email = ?" + "AND password = ?"
+		 */
 		
 		try (Statement st = conn.createStatement()) {
 			ResultSet sqlRes = st.executeQuery(

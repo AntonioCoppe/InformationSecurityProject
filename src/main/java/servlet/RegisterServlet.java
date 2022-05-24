@@ -45,7 +45,7 @@ public class RegisterServlet extends HttpServlet {
 	
 	        conn = DriverManager.getConnection(DB_URL, connectionProps);
 		    
-		    System.out.println("User \"" + USER + "\" registered to the database.");
+		    //System.out.println("User \"" + USER + "\" registered to the database.");
     	
     	} catch (ClassNotFoundException | SQLException e) {
 			e.printStackTrace();
