@@ -28,7 +28,7 @@ Via the register form is possible to inject runnable scripts such the one below:
 <script>alert(This is a Virus!!!)</script>
 ```
 
-### XSRF
+### Sniffing Attack
 With the use of a tool called ***Wireshark***(A free and open-source packet analyzer) is possible to capture *HTTP* traffic and analyze it with various tools. I will list below the step by step process for capturing the aformentioned information:
 - Run The Web Application and login;
 - Open wireshark and select the interface;
