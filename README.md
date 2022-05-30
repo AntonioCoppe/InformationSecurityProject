@@ -14,7 +14,7 @@ As a web server *Tomcat 10.0.16* was used, as a database *MySQL* and the applica
 
 ### SQL Injection
 Via the login form is possible to inject queries such as:
-```
+```mysql
 'DROP TABLE [user];-- 	        --> Deleting the user table
 'DROP TABLE mail;--		--> Deleting the mail table
 'DROP TABLE *;--		--> Deleting all tables
@@ -24,7 +24,7 @@ Via the login form is possible to inject queries such as:
 
 Via the register form is possible to inject runnable scripts such the one below:
 
-```
+```javacript
 <script>alert(This is a Virus!!!)</script>
 ```
 
@@ -43,6 +43,42 @@ With the use of a tool called ***Wireshark***(A free and open-source packet anal
 
 ## Implementation of a "Secure" application
 
-*To be done*
+### SQL Injection
+A solution i found was to use parametrized queries. That means you don't concatenate user-supplied values. Instead you use placesholders for those values ensuring the values themselves are never part of the text of the query.
+
+Example of the code for the login.java class:
+
+```java
+String email = request.getParameter("email");
+		String pwd = request.getParameter("password");
+
+		String query = "SELECT * FROM [user] WHERE email = ? AND password = ?";
+
+		try {
+
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setString(1, email);
+			statement.setString(2, pwd);
+			ResultSet sqlRes = statement.executeQuery();
+
+			if (sqlRes.next()) {
+				request.setAttribute("email", sqlRes.getString(3));
+				request.setAttribute("password", sqlRes.getString(4));
+
+				System.out.println("Login succeeded!");
+				request.setAttribute("content", "");
+				request.getRequestDispatcher("home.jsp").forward(request, response);
+
+			} else {
+				System.out.println("Login failed!");
+				request.getRequestDispatcher("login.html").forward(request, response);
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			request.getRequestDispatcher("login.html").forward(request, response);
+		}
+
+```
 
 
