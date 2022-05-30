@@ -2,8 +2,10 @@
 FIXED
 
 - Login and register form can insert only valid email addresses.
+- Login page free from sql injection
 
 
 TO BE FIXED
 
-- 
+- Find a CSRF Vulnerability;
+- Solve Vulnerabilities found;
