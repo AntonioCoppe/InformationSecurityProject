@@ -3,6 +3,7 @@ FIXED
 
 - Login and register form can insert only valid email addresses.
 - Login page free from sql injection
+- Register page free from sql injection
 
 
 TO BE FIXED

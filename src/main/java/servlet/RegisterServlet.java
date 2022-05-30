@@ -69,7 +69,7 @@ public class RegisterServlet extends HttpServlet {
 		String SelectQuery = "SELECT * FROM [user] WHERE email = ?";
 
 		/*
-		 * Here is available the sql Injeciton ""free""" code
+		 * Here is available the SQL Injection ""free""" code
 		 */
 
 		try {
@@ -92,9 +92,8 @@ public class RegisterServlet extends HttpServlet {
 				Insertstatement.setString(3, email);
 				Insertstatement.setString(4, pwd);
 
-				ResultSet sqlInsRes = Insertstatement.executeQuery();
-
-				sqlInsRes.next();
+				@SuppressWarnings("unused")
+				boolean sqlInsRes = Insertstatement.execute();
 
 				request.setAttribute("email", email);
 				request.setAttribute("password", pwd);
