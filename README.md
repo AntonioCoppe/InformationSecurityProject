@@ -46,7 +46,7 @@ With the use of a tool called ***Wireshark***(A free and open-source packet anal
 ### SQL Injection
 A solution i found was to use parametrized queries. That means you don't concatenate user-supplied values. Instead you use placesholders for those values ensuring the values themselves are never part of the text of the query.
 
-Example of the code for the login.java class:
+"Safe" Code for the loginServlet.java class:
 
 ```java
 String email = request.getParameter("email");
@@ -79,6 +79,46 @@ String email = request.getParameter("email");
 			request.getRequestDispatcher("login.html").forward(request, response);
 		}
 
+```
+
+"Safe" Code for the RegisterServlet.java class:
+
+```java
+try {
+
+			PreparedStatement statement = conn.prepareStatement(SelectQuery);
+			statement.setString(1, email);
+			ResultSet sqlRes = statement.executeQuery();
+
+			if (sqlRes.next()) {
+				System.out.println("Email already registered!");
+				request.getRequestDispatcher("register.html").forward(request, response);
+
+			} else {
+
+				String InsertQuery = "SET NOCOUNT ON INSERT INTO [user] (name, surname, email, password ) VALUES (?, ?, ?, ?)";
+
+				PreparedStatement Insertstatement = conn.prepareStatement(InsertQuery);
+				Insertstatement.setString(1, name);
+				Insertstatement.setString(2, surname);
+				Insertstatement.setString(3, email);
+				Insertstatement.setString(4, pwd);
+
+				@SuppressWarnings("unused")
+				boolean sqlInsRes = Insertstatement.execute();
+
+				request.setAttribute("email", email);
+				request.setAttribute("password", pwd);
+
+				System.out.println("Registration succeeded!");
+				request.getRequestDispatcher("home.jsp").forward(request, response);
+
+			}
+
+		} catch (SQLException e) {
+			e.printStackTrace();
+			request.getRequestDispatcher("register.html").forward(request, response);
+		}
 ```
 
 
