@@ -68,7 +68,7 @@ public class SendMailServlet extends HttpServlet {
 				"INSERT INTO mail ( sender, receiver, subject, body, [time] ) "
 				+ "VALUES ( '" + sender + "', '" + receiver + "', '" + subject + "', '" + body + "', '" + timestamp + "' )"
 			);
-			System.out.print("\nMail sent!!!!!\t" + timestamp);
+			System.out.print("\nMAIL SENT AT \t" + timestamp);
 		} catch (SQLException e) {
 			e.printStackTrace();
 		}
