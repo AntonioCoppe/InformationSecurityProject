@@ -32,7 +32,7 @@ Via the register form is possible to inject runnable scripts such the one below:
 
 Via the Object or Body field is possible to inject runnable javascript code such the one below:
 ```javascript
-"><img src=x onerror=alert(document.cookie);>
+<img src=x onerror="alert('Pop-up window via stored XSS');"
 ```
 
 
