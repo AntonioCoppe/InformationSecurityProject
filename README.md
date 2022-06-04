@@ -25,7 +25,7 @@ Via the login form is possible to inject queries such as:
 Via the register form is possible to inject runnable scripts such the one below:
 
 ```javascript
-<script>alert(This is a Virus!!!)</script>
+"><script>alert(document.cookie)</script>
 ```
 
 ### XSS Stored
