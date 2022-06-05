@@ -9,6 +9,8 @@ import java.sql.Statement;
 import java.util.Date;
 import java.util.Properties;
 
+import org.owasp.encoder.Encode;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -52,7 +54,38 @@ public class SendMailServlet extends HttpServlet {
 			e.printStackTrace();
 		}
     }
-
+    /**
+	 * Encodes for HTML text attributes.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForHtmlAttribute(String s) {
+		return Encode.forHtmlAttribute(s);
+	}
+	
+	
+	/**
+	 * Encodes for HTML text content.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForHtmlContent(String s) {
+		return Encode.forHtmlContent(s);
+	}
+	
+	/**
+	 * This method encodes for JavaScript strings contained within HTML script attributes (such as onclick).
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForJavaScriptAttribute(String s) {
+		return Encode.forJavaScriptAttribute(s);
+	}
+	
+	
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 		response.setContentType("text/html");
 		
@@ -62,11 +95,19 @@ public class SendMailServlet extends HttpServlet {
 		String body = request.getParameter("body").replace("'", "''");;
 		String timestamp = new Date(System.currentTimeMillis()).toInstant().toString();
 		
+		//Encode for protection against attacks
+		String encodedReceiver = encodeForJavaScriptAttribute(encodeForHtmlAttribute(receiver));
+		String encodedSubject = encodeForJavaScriptAttribute(encodeForHtmlAttribute(subject));
+		String encodedBody = encodeForJavaScriptAttribute(encodeForHtmlContent(body));
 		
+		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlAttribute(receiver)));
+		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlAttribute(subject)));
+		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlContent(body)));
+
 		try (Statement st = conn.createStatement()) {
 			st.execute(
 				"INSERT INTO mail ( sender, receiver, subject, body, [time] ) "
-				+ "VALUES ( '" + sender + "', '" + receiver + "', '" + subject + "', '" + body + "', '" + timestamp + "' )"
+				+ "VALUES ( '" + sender + "', '" + encodedReceiver + "', '" + encodedSubject + "', '" + encodedBody + "', '" + timestamp + "' )"
 			);
 			System.out.print("\nMAIL SENT AT \t" + timestamp);
 		} catch (SQLException e) {

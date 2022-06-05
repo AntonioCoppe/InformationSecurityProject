@@ -9,7 +9,7 @@ import java.sql.SQLException;
 import java.sql.Statement;
 import java.util.Properties;
 
-import org.owasp.encoder.Encode;
+//import org.owasp.encoder.Encode;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
@@ -52,7 +52,7 @@ public class NavigationServlet extends HttpServlet {
 			e.printStackTrace();
 		}
     }
-
+    
 
 	/**
 	 * @see HttpServlet#doPost(HttpServletRequest request, HttpServletResponse response)
@@ -95,7 +95,7 @@ public class NavigationServlet extends HttpServlet {
 				
 				output.append("<hr style=\"border-top: 2px solid black;\">\r\n");
 			}
-			
+
 			output.append("</div>");
 			
 			return output.toString();
@@ -116,7 +116,7 @@ public class NavigationServlet extends HttpServlet {
 			+ "		<textarea class=\"textarea-input\" name=\"body\" placeholder=\"Body\" wrap=\"hard\" required></textarea>\r\n"
 			+ "		<input type=\"submit\" name=\"sent\" value=\"Send\">\r\n"
 			+ "	</form>";
-	}
+	} 
 	
 	private String getHtmlForSent(String email) {
 		try (Statement st = conn.createStatement()) {
