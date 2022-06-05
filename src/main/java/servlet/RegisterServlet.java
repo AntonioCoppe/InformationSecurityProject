@@ -1,7 +1,9 @@
 package servlet;
 
-import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -11,6 +13,7 @@ import java.util.Properties;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
@@ -51,6 +54,44 @@ public class RegisterServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	// Java program to calculate MD5 hash value
+    public static String md5(String input)
+    {
+        try {
+
+            // Static getInstance method is called with hashing MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // digest() method is called to calculate message digest
+            //  of an input digest() return array of byte
+            byte[] messageDigest = md.digest(input.getBytes());
+
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, messageDigest);
+
+            // Convert message digest into hex value
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        }
+
+        // For specifying wrong message digest algorithms
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
+    /**
+	 * Encodes for a Java string.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 
+	public static String encodeForJava(String s) {
+		return Encode.forJava(s);
+	}*/
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -90,13 +131,13 @@ public class RegisterServlet extends HttpServlet {
 				Insertstatement.setString(1, name);
 				Insertstatement.setString(2, surname);
 				Insertstatement.setString(3, email);
-				Insertstatement.setString(4, pwd);
+				Insertstatement.setString(4, md5(pwd));
 
 				@SuppressWarnings("unused")
 				boolean sqlInsRes = Insertstatement.execute();
 
 				request.setAttribute("email", email);
-				request.setAttribute("password", pwd);
+				request.setAttribute("password", md5(pwd));
 
 				System.out.println("Registration succeeded!");
 				request.getRequestDispatcher("home.jsp").forward(request, response);

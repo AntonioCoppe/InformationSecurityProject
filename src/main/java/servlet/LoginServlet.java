@@ -2,18 +2,21 @@ package servlet;
 
 import jakarta.servlet.http.HttpServlet;
 import java.io.IOException;
+import java.math.BigInteger;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Properties;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+
 
 /**
  * Servlet implementation class HelloWorldServlet
@@ -52,6 +55,35 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 		}
 	}
+	
+	// Java program to calculate MD5 hash value
+    public static String md5(String input)
+    {
+        try {
+
+            // Static getInstance method is called with hashing MD5
+            MessageDigest md = MessageDigest.getInstance("MD5");
+
+            // digest() method is called to calculate message digest
+            //  of an input digest() return array of byte
+            byte[] messageDigest = md.digest(input.getBytes());
+
+            // Convert byte array into signum representation
+            BigInteger no = new BigInteger(1, messageDigest);
+
+            // Convert message digest into hex value
+            String hashtext = no.toString(16);
+            while (hashtext.length() < 32) {
+                hashtext = "0" + hashtext;
+            }
+            return hashtext;
+        }
+
+        // For specifying wrong message digest algorithms
+        catch (NoSuchAlgorithmException e) {
+            throw new RuntimeException(e);
+        }
+    }
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -64,35 +96,14 @@ public class LoginServlet extends HttpServlet {
 		String email = request.getParameter("email");
 		String pwd = request.getParameter("password");
 
-		/*
-		 * String query = "SELECT * FROM [user] WHERE email = ? AND password = ?";
-		 * 
-		 * try {
-		 * 
-		 * PreparedStatement statement = conn.prepareStatement(query);
-		 * statement.setString(1, email); statement.setString(2, pwd); ResultSet sqlRes
-		 * = statement.executeQuery();
-		 * 
-		 * if (sqlRes.next()) { request.setAttribute("email", sqlRes.getString(3));
-		 * request.setAttribute("password", sqlRes.getString(4));
-		 * 
-		 * System.out.println("Login succeeded!"); request.setAttribute("content", "");
-		 * request.getRequestDispatcher("home.jsp").forward(request, response);
-		 * 
-		 * } else { System.out.println("Login failed!");
-		 * request.getRequestDispatcher("login.html").forward(request, response); }
-		 * 
-		 * } catch (SQLException e) { e.printStackTrace();
-		 * request.getRequestDispatcher("login.html").forward(request, response); }
-		 */
+		String query = "SELECT * FROM [user] WHERE email = ? AND password = ?";
 
-		/*
-		 * Here is available the Vulnerable code
-		 */
+		try {
 
-		try (Statement st = conn.createStatement()) {
-			ResultSet sqlRes = st.executeQuery(
-					"SELECT * " + "FROM [user] " + "WHERE email='" + email + "' " + "AND password='" + pwd + "'");
+			PreparedStatement statement = conn.prepareStatement(query);
+			statement.setString(1, email);
+			statement.setString(2, md5(pwd));
+			ResultSet sqlRes = statement.executeQuery();
 
 			if (sqlRes.next()) {
 				request.setAttribute("email", sqlRes.getString(3));
@@ -111,6 +122,28 @@ public class LoginServlet extends HttpServlet {
 			e.printStackTrace();
 			request.getRequestDispatcher("login.html").forward(request, response);
 		}
+		
+		/*
+		 * Here is available the Vulnerable code
+		 */
 
+		/*
+		 * try (Statement st = conn.createStatement()) { ResultSet sqlRes =
+		 * st.executeQuery( "SELECT * " + "FROM [user] " + "WHERE email='" + email +
+		 * "' " + "AND password='" + pwd + "'" );
+		 * 
+		 * if (sqlRes.next()) { request.setAttribute("email", sqlRes.getString(3));
+		 * request.setAttribute("password", sqlRes.getString(4));
+		 * 
+		 * System.out.println("Login succeeded!"); request.setAttribute("content", "");
+		 * request.getRequestDispatcher("home.jsp").forward(request, response);
+		 * 
+		 * 
+		 * } else { System.out.println("Login failed!");
+		 * request.getRequestDispatcher("login.html").forward(request, response); }
+		 * 
+		 * } catch (SQLException e) { e.printStackTrace();
+		 * request.getRequestDispatcher("login.html").forward(request, response); }
+		 */
 	}
 }
