@@ -113,8 +113,8 @@ public class LoginServlet extends HttpServlet {
 		try {
 
 			PreparedStatement statement = conn.prepareStatement(query);
-			statement.setString(1, encodeForJava(email));
-			statement.setString(2, encodeForJava(md5(pwd)));
+			statement.setString(1, email);
+			statement.setString(2, md5(pwd));
 			ResultSet sqlRes = statement.executeQuery();
 
 			if (sqlRes.next()) {

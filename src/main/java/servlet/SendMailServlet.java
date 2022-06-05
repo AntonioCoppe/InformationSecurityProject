@@ -54,15 +54,6 @@ public class SendMailServlet extends HttpServlet {
 			e.printStackTrace();
 		}
     }
-    /**
-	 * Encodes for HTML text attributes.
-	 *
-	 * @param s
-	 * @return Encoded String
-	 */
-	public static String encodeForHtmlAttribute(String s) {
-		return Encode.forHtmlAttribute(s);
-	}
 	
 	
 	/**
@@ -96,21 +87,20 @@ public class SendMailServlet extends HttpServlet {
 		String timestamp = new Date(System.currentTimeMillis()).toInstant().toString();
 		
 		//Encode for protection against attacks
-		String encodedReceiver = encodeForJavaScriptAttribute(encodeForHtmlAttribute(receiver));
-		String encodedSubject = encodeForJavaScriptAttribute(encodeForHtmlAttribute(subject));
+		String encodedSubject = encodeForJavaScriptAttribute(subject);
 		String encodedBody = encodeForJavaScriptAttribute(encodeForHtmlContent(body));
 		
-		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlAttribute(receiver)));
-		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlAttribute(subject)));
+		System.out.println(encodeForJavaScriptAttribute(subject));
 		System.out.println(encodeForJavaScriptAttribute(encodeForHtmlContent(body)));
 
 		try (Statement st = conn.createStatement()) {
 			st.execute(
 				"INSERT INTO mail ( sender, receiver, subject, body, [time] ) "
-				+ "VALUES ( '" + sender + "', '" + encodedReceiver + "', '" + encodedSubject + "', '" + encodedBody + "', '" + timestamp + "' )"
+				+ "VALUES ( '" + sender + "', '" + receiver + "', '" + encodedSubject + "', '" + encodedBody + "', '" + timestamp + "' )"
 			);
 			System.out.print("\nMAIL SENT AT \t" + timestamp);
 		} catch (SQLException e) {
+			
 			e.printStackTrace();
 		}
 		
