@@ -145,7 +145,7 @@ try {
 		}
 ```
 ### XSS Reflected
-By Using the owasp.encoder.Encode library was possible to resolve the XSS reflected attacks, the code below is the encoder function.
+By Using the owasp.encoder.Encode library was possible to resolve the XSS reflected attacks, the code below contains the encoder function.
 ```java
     /**
 	 * Encodes for a Java string.
@@ -157,4 +157,40 @@ By Using the owasp.encoder.Encode library was possible to resolve the XSS reflec
 		return Encode.forJava(s);
 	}
 ```
+
+### XSS Stored
+By Using the owasp.encoder.Encode library was possible to resolve the XSS Stored attacks, the code below contains the encoder functions.
+```java
+/**
+	 * Encodes for HTML text attributes.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForHtmlAttribute(String s) {
+		return Encode.forHtmlAttribute(s);
+	}
+	
+	
+	/**
+	 * Encodes for HTML text content.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForHtmlContent(String s) {
+		return Encode.forHtmlContent(s);
+	}
+	
+	/**
+	 * This method encodes for JavaScript strings contained within HTML script attributes (such as onclick).
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForJavaScriptAttribute(String s) {
+		return Encode.forJavaScriptAttribute(s);
+	}
+```
+
 
