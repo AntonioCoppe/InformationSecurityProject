@@ -17,6 +17,8 @@ import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.owasp.encoder.Encode;
+
 /**
  * Servlet implementation class RegisterServlet
  */
@@ -88,10 +90,10 @@ public class RegisterServlet extends HttpServlet {
 	 *
 	 * @param s
 	 * @return Encoded String
-	 
+	 */
 	public static String encodeForJava(String s) {
 		return Encode.forJava(s);
-	}*/
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -128,16 +130,16 @@ public class RegisterServlet extends HttpServlet {
 				String InsertQuery = "SET NOCOUNT ON INSERT INTO [user] (name, surname, email, password ) VALUES (?, ?, ?, ?)";
 
 				PreparedStatement Insertstatement = conn.prepareStatement(InsertQuery);
-				Insertstatement.setString(1, name);
-				Insertstatement.setString(2, surname);
-				Insertstatement.setString(3, email);
-				Insertstatement.setString(4, md5(pwd));
+				Insertstatement.setString(1, encodeForJava(name));
+				Insertstatement.setString(2, encodeForJava(surname));
+				Insertstatement.setString(3, encodeForJava(email));
+				Insertstatement.setString(4, encodeForJava(md5(pwd)));
 
 				@SuppressWarnings("unused")
 				boolean sqlInsRes = Insertstatement.execute();
 
-				request.setAttribute("email", email);
-				request.setAttribute("password", md5(pwd));
+				request.setAttribute("email", encodeForJava(email));
+				request.setAttribute("password", encodeForJava(md5(pwd)));
 
 				System.out.println("Registration succeeded!");
 				request.getRequestDispatcher("home.jsp").forward(request, response);

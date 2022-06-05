@@ -12,6 +12,8 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Properties;
 
+import org.owasp.encoder.Encode;
+
 import jakarta.servlet.ServletException;
 import jakarta.servlet.annotation.WebServlet;
 import jakarta.servlet.http.HttpServletRequest;
@@ -84,6 +86,16 @@ public class LoginServlet extends HttpServlet {
             throw new RuntimeException(e);
         }
     }
+    
+    /**
+	 * Encodes for a Java string.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForJava(String s) {
+		return Encode.forJava(s);
+	}
 
 	protected void doPost(HttpServletRequest request, HttpServletResponse response)
 			throws ServletException, IOException {
@@ -101,8 +113,8 @@ public class LoginServlet extends HttpServlet {
 		try {
 
 			PreparedStatement statement = conn.prepareStatement(query);
-			statement.setString(1, email);
-			statement.setString(2, md5(pwd));
+			statement.setString(1, encodeForJava(email));
+			statement.setString(2, encodeForJava(md5(pwd)));
 			ResultSet sqlRes = statement.executeQuery();
 
 			if (sqlRes.next()) {
