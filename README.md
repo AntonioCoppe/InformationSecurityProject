@@ -144,5 +144,17 @@ try {
 			request.getRequestDispatcher("register.html").forward(request, response);
 		}
 ```
-
+### XSS Reflected
+By Using the owasp.encoder.Encode library was possible to resolve the XSS reflected attacks, the code below is the encoder function.
+```java
+    /**
+	 * Encodes for a Java string.
+	 *
+	 * @param s
+	 * @return Encoded String
+	 */
+	public static String encodeForJava(String s) {
+		return Encode.forJava(s);
+	}
+```
 
